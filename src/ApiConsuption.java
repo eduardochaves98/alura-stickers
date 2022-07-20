@@ -10,8 +10,8 @@ public class ApiConsuption {
     String body;
     List<Filme> filmes;
 
-    public boolean apiInvoke() throws Exception {
-        String url = "https://raw.githubusercontent.com/alexfelipe/imersao-java/json/top250.json";
+    public int apiInvoke() throws Exception {
+        String url = "https://mocki.io/v1/9a7c1ca9-29b4-4eb3-8306-1adb9d159060";
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(URI.create(url))
                 .GET()
@@ -23,9 +23,9 @@ public class ApiConsuption {
         filmes = parser.getItems();
         if (!parser.getErrorMessage().equals("")) {
             System.out.println(parser.getErrorMessage());
-            return false;
+            return filmes.size();
         } else {
-            return true;
+            return filmes.size();
         }
     }
 
