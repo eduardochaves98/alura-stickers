@@ -10,7 +10,8 @@ public class App {
         // fazer a conexao HTTP e buscar os filmes
         ApiConsuption apiConsuption = new ApiConsuption();
         StickerFactory stickerFactory = new StickerFactory();
-        int qntdFilmes = apiConsuption.apiInvoke();
+        apiConsuption.apiInvoke();
+        int qntdFilmes = apiConsuption.ParseFilmes();
         if (qntdFilmes == 0) {
             // apiConsuption.printFilmes();
             System.out.println("Erro ao buscar os filmes");

@@ -1,7 +1,7 @@
 
 import java.util.List;
 
-public class Parser {
+public class MovieParser {
     // List<String> items = new ArrayList<String>();
     List<Filme> items;
     String errorMessage;

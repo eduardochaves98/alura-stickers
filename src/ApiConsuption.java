@@ -1,17 +1,34 @@
+
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Properties;
 
 import com.google.gson.Gson;
 
 public class ApiConsuption {
     String body;
     List<Filme> filmes;
+    List<NasaPicture> pictures;
+    Gson gson = new Gson();
+    List<String> keys = new ArrayList<String>();
 
-    public int apiInvoke() throws Exception {
-        String url = "https://mocki.io/v1/9a7c1ca9-29b4-4eb3-8306-1adb9d159060";
+    public static Properties getProp() throws IOException {
+        Properties prop = new Properties();
+        prop.load(new FileInputStream(
+                "./config.properties"));
+        return prop;
+    }
+
+    public Gson apiInvoke() throws Exception {
+        Properties prop = getProp();
+        String url = prop.getProperty("prop.server.url");
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder(URI.create(url))
                 .GET()
@@ -19,14 +36,8 @@ public class ApiConsuption {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         setBody(response.body());
         Gson gson = new Gson();
-        Parser parser = gson.fromJson(body, Parser.class);
-        filmes = parser.getItems();
-        if (!parser.getErrorMessage().equals("")) {
-            System.out.println(parser.getErrorMessage());
-            return filmes.size();
-        } else {
-            return filmes.size();
-        }
+        this.gson = gson;
+        return gson;
     }
 
     public void printFilmes() {
@@ -86,6 +97,38 @@ public class ApiConsuption {
         }
         return null;
     }
+
+    public int ParseFilmes() {
+        MovieParser parser = gson.fromJson(body, MovieParser.class);
+        filmes = parser.getItems();
+        if (!parser.getErrorMessage().equals("")) {
+            System.out.println(parser.getErrorMessage());
+
+            return filmes.size();
+        } else {
+            return filmes.size();
+        }
+    }
+
+    public List<NasaPicture> ParsePictures() {
+        body = "{itens: " + body + "}";
+        ParseNasa parser = gson.fromJson(body, ParseNasa.class);
+        pictures = parser.getMaster();
+        return pictures;
+    }
+
+    // @SuppressWarnings("unchecked")
+    // public Object ParsePictures() {
+    // ArrayList<LinkedTreeMap<String, String>> json = gson.fromJson(body,
+    // ArrayList.class);
+
+    // for (LinkedTreeMap<String, String> map : json) {
+    // picture = new NasaPicture(map);
+    // pictures.add(this.picture);
+    // }
+    // System.out.println(picture);
+    // return pictures;
+    // }
 
     public void setNotaFilme(Filme filme, String nota) {
         filme.setImDbRating(nota);
