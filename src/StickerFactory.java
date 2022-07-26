@@ -61,9 +61,6 @@ public class StickerFactory {
     public void create(String url, int name) throws IOException {
         String formatedUrl = url;
         BufferedImage image = ImageIO.read(new URL(formatedUrl));
-        int largura = image.getWidth();
-        int altura = image.getHeight();
-
         ImageIO.write(image, "png", new File("imgs/nasa/sticker" + name + ".png"));
     }
 

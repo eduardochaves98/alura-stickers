@@ -1,14 +1,11 @@
 import java.io.IOException;
 import java.util.List;
 
-import com.google.gson.Gson;
-
 public class ApiNasa {
     public static void main(String[] args) {
         ApiConsuption apiConsupiton = new ApiConsuption();
-        Gson gson = new Gson();
         try {
-            gson = apiConsupiton.apiInvoke();
+            apiConsupiton.apiInvoke();
         } catch (Exception e) {
         }
         List<NasaPicture> pictures = apiConsupiton.ParsePictures();

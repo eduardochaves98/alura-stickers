@@ -1,7 +1,7 @@
 public class GerarPackTop10 {
     public static void main(String[] args) throws Exception {
         ApiConsuption apiConsuption = new ApiConsuption();
-        StickerFactory stickerFactory = new StickerFactory();
+
         apiConsuption.apiInvoke();
         int qntdFilmes = apiConsuption.ParseFilmes();
         if (qntdFilmes == 0) {
